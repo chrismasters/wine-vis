@@ -1,0 +1,319 @@
+<html>
+
+<head>
+    <script src="http://unpkg.com/three"></script>
+    <script src="http://unpkg.com/three-spritetext"></script>
+    <script src="http://unpkg.com/3d-force-graph"></script>
+</head>
+<body>
+    <div id="g"></div>
+</body>
+<script>
+    const grapes = [
+        "Chardonnay",
+        "Pinot Noir",
+        "Meunier",
+        "Pinot Blanc",
+        "Arbanne",
+        "Petit Meslier",
+        "Fromenteau",
+		"Auxerrois",
+		"Riesling",
+		"Pinot Gris",
+		"Gamay",
+		"Chenin Blanc",
+		"Cabernet Franc", 
+		"Cabernet Sauvignon", 
+		"Grolleau Noir",
+		"Grolleau Gris", 
+		"Pineau d'Aunis",
+		"Sauvignon Blanc",
+		"Macabeo",
+		"Xarel-lo",
+		"Parellada",
+		"Garnacha Tinta",
+		"Trepat",
+		"Glera",
+		"Moscato Bianco",
+		"Lambrusco Salamino",
+		"Lambrusco Grasparossa",
+		"Lambrusco di Sorbara",
+		"Silvaner",
+		"Pinot Noir Precoce",
+		"Viognier",
+		"Syrah",
+		"Tempranillo",
+		"Muller Thurgau",
+		"Gewurztraminer",
+		"Muscat",
+		"Pinotage"
+    ];
+	const countries = [
+		"Australia",
+		"France",
+		"Germany",
+		"Italy",
+		"New Zealand",
+		"South Africa",
+		"Chile",
+		"Argentina",
+		"Spain",
+		"UK",
+		"USA"
+	]
+    const regions = [
+		"Montagne de Reims",
+		"Vallee de la Marne",
+		"Cote des Blancs",
+		"Cote de Sezanne",
+		"Cote des Bar",
+		"South Australia", 
+		"Victoria", 
+		"Tasmania", 
+		"South Eastern Australia",
+        "California", 
+		"Oregon", 
+		"Washington State"
+    ];
+    const wines = [
+        "Champagne",
+        "Cremant d'Alsace",
+        "Cremant de Bourgogne",
+        "Cremant de Loire",
+        "Saumur Mousseux",
+		"Vouvray Mousseux",
+		"Cava",
+		"Prosecco",
+		"Asti",
+		"Lambrusco",
+		"Franciacorta",
+		"Trentodoc",
+		"Sekt",
+		"Deutscher Sekt",
+		"Deutscher Sekt bA",
+		"Winzersekt",
+		"Perlwein",
+		
+    ]
+    const methods = [
+        "Traditional Method", 
+		"Transfer Method", 
+		"Tank Method", 
+		"Asti Method", 
+		"Carbonation", 
+		"Petillant naturel"
+    ];
+	const connections = [
+		["France", "Champagne"],
+		["France", "Cremant d'Alsace"],
+		["France", "Cremant de Bourgogne"],
+		["France", "Cremant de Loire"],
+		["France", "Saumur Mousseux"],
+		["France", "Vouvray Mousseux"],
+        ["Champagne", "Chardonnay"],
+        ["Champagne", "Pinot Noir"],
+        ["Champagne", "Meunier"],
+        ["Champagne", "Pinot Blanc"],
+        ["Champagne", "Arbanne"],
+        ["Champagne", "Petit Meslier"],
+        ["Champagne", "Fromenteau"],
+        ["Champagne", "Montagne de Reims"],
+        ["Champagne", "Vallee de la Marne"],
+        ["Champagne", "Cote des Blancs"],
+        ["Champagne", "Cote de Sezanne"],
+        ["Champagne", "Cote des Bar"],
+        ["Champagne", "Traditional Method"],
+        ["Cremant d'Alsace", "Traditional Method"],
+        ["Cremant d'Alsace", "Pinot Blanc"], 
+        ["Cremant d'Alsace", "Chardonnay"],
+        ["Cremant d'Alsace", "Pinot Noir"],
+		["Cremant d'Alsace", "Auxerrois"], 
+		["Cremant d'Alsace", "Riesling"], 
+		["Cremant d'Alsace", "Pinot Gris"],
+        ["Cremant de Bourgogne", "Traditional Method"],
+		["Cremant de Bourgogne", "Chardonnay"],
+		["Cremant de Bourgogne", "Pinot Noir"],
+		["Cremant de Bourgogne", "Gamay"],
+
+		["Cremant de Loire", "Traditional Method"],		
+		["Cremant de Loire", "Chenin Blanc"],
+		["Cremant de Loire", "Cabernet Franc"], 
+		["Cremant de Loire", "Cabernet Sauvignon"], 
+		["Cremant de Loire", "Grolleau Noir"],
+		["Cremant de Loire", "Grolleau Gris"], 
+		["Cremant de Loire", "Pineau d'Aunis"],
+
+        ["Saumur Mousseux", "Chenin Blanc"],
+        ["Saumur Mousseux", "Cabernet Franc"],
+        ["Saumur Mousseux", "Sauvignon Blanc"],
+		["Saumur Mousseux", "Traditional Method"],
+				
+		["Vouvray Mousseux", "Chenin Blanc"],
+		["Vouvray Mousseux", "Sauvignon Blanc"],
+		["Vouvray Mousseux", "Traditional Method"],
+		["Vouvray Mousseux", "Petillant naturel"],
+		
+		["Spain", "Cava"],
+		["Cava", "Traditional Method"],
+		["Cava", "Macabeo"],
+		["Cava", "Xarel-lo"],
+		["Cava", "Parellada"],
+		["Cava", "Chardonnay"],
+		["Cava", "Garnacha Tinta"],
+		["Cava", "Trepat"],
+		["Cava", "Pinot Noir"],
+		
+		["Italy", "Tank Method"],
+		["Italy", "Traditional Method"],
+		
+		["Italy", "Prosecco"],
+		["Italy", "Asti"],
+		["Italy", "Lambrusco"],
+		["Italy", "Franciacorta"],
+		["Italy", "Trentodoc"],
+		
+		["Prosecco", "Glera"],
+		["Prosecco", "Tank Method"],
+				
+		["Asti", "Moscato Bianco"],
+		["Asti", "Asti Method"],
+		
+		["Lambrusco", "Lambrusco Salamino"],
+		["Lambrusco", "Lambrusco Grasparossa"],
+		["Lambrusco", "Lambrusco di Sorbara"],
+		["Lambrusco", "Tank Method"],
+		["Lambrusco", "Petillant naturel"],
+
+		["Franciacorta", "Traditional Method"],
+		["Franciacorta", "Chardonnay"],
+		["Franciacorta", "Pinot Noir"],
+		["Franciacorta", "Pinot Blanc"],
+		
+		["Trentodoc", "Traditional Method"],
+		["Trentodoc", "Chardonnay"],
+		["Trentodoc", "Pinot Noir"],
+		["Trentodoc", "Meunier"],
+		
+		["Germany", "Sekt"],
+		["Sekt", "Deutscher Sekt"],
+		["Sekt", "Deutscher Sekt bA"],
+		["Sekt", "Winzersekt"],
+		["Sekt", "Perlwein"],
+		
+		["Germany", "Traditional Method"],
+		["Germany", "Tank Method"],
+		["Germany", "Transfer Method"],
+		
+		["Sekt", "Riesling"],
+		["Sekt", "Pinot Noir"],
+		["Sekt", "Pinot Blanc"], 
+		["Sekt", "Pinot Gris"],
+		["Sekt", "Chardonnay"],
+		["Sekt", "Silvaner"],
+		
+		
+		["UK", "Chardonnay"],
+		["UK", "Pinot Noir"],
+		["UK", "Meunier"],
+		["UK", "Pinot Blanc"],
+		["UK", "Pinot Gris"],
+		["UK", "Pinot Noir Precoce"],
+		["UK", "Traditional Method"],
+		["UK", "Tank Method"],
+		["UK", "Petillant naturel"],
+		
+		["USA", "Traditional Method"],
+		["USA", "Tank Method"],
+		["USA", "Petillant naturel"],
+		
+		["USA", "California"], 
+		["USA", "Oregon"], 
+		["USA", "Washington State"],
+		
+		["California", "Chardonnay"],
+		["California", "Pinot Noir"],
+		["California", "Pinot Gris"],
+		["California", "Pinot Blanc"],
+		["California", "Sauvignon Blanc"],
+		["California", "Viognier"],
+		["California", "Syrah"],
+		["California", "Tempranillo"],
+		
+		["Washington State", "Chardonnay"], 
+		["Washington State", "Pinot Noir"],
+		["Washington State", "Meunier"],
+		["Washington State", "Muller Thurgau"],
+		["Washington State", "Riesling"],
+		["Washington State", "Gewurztraminer"],
+		
+		["Oregon", "Chardonnay"], 
+		["Oregon", "Pinot Noir"],
+		
+		["Chile", "Traditional Method"],
+		["Chile", "Tank Method"],
+		["Chile", "Chardonnay"], 
+		["Chile", "Pinot Noir"],
+		["Chile", "Sauvignon Blanc"],
+		
+		["Argentina", "Traditional Method"],
+		["Argentina", "Tank Method"],
+		["Argentina", "Carbonation"],
+		["Argentina", "Chardonnay"], 
+		["Argentina", "Pinot Noir"],
+		
+		["South Africa", "Traditional Method"],
+		["South Africa", "Carbonation"],
+		["South Africa", "Sauvignon Blanc"],
+		["South Africa", "Muscat"],
+		["South Africa", "Pinotage"],
+		
+		["Australia", "Tank Method"],
+		["Australia", "Traditional Method"],
+		["Australia", "Carbonation"],
+		["Australia", "Petillant naturel"],
+		["Australia", "Chardonnay"],
+		["Australia", "Pinot Noir"],
+		["Australia", "Meunier"],
+		["Australia", "Glera"],
+		["Australia", "Moscato Bianco"],
+		["Australia", "Syrah"],
+		["Australia", "Tasmania"],
+		["Australia", "Victoria"],
+		["Australia", "South Australia"],
+		["Australia", "South Eastern Australia"],
+		
+		["New Zealand", "Traditional Method"],
+		["New Zealand", "Carbonation"],
+		["New Zealand", "Chardonnay"],
+		["New Zealand", "Pinot Noir"],
+		["New Zealand", "Sauvignon Blanc"],
+		["New Zealand", "Pinot Gris"],
+	];
+	const nodes = 
+		grapes.map(x => ({ id: x, group: "Varietal" }))
+		.concat(countries.map(x => ({ id: x, group: "Country" })))
+		.concat(regions.map(x => ({ id: x, group: "Regions" })))
+		.concat(wines.map(x => ({ id: x, group: "Wines" })))
+		.concat(methods.map(x => ({ id: x, group: "Methods" })))
+	const links = connections.map(x => ({ source: x[0], target: x[1] }));
+    const gData = {
+      nodes: nodes,
+      links: links
+    };
+
+    const Graph = ForceGraph3D()
+      (document.getElementById('g'))
+        .graphData(gData)
+        .nodeAutoColorBy('group')
+        .nodeThreeObject(node => {
+          const sprite = new SpriteText(node.id);
+          console.log(sprite)
+          sprite.material.depthWrite = false; // make sprite background transparent
+          sprite.color = node.color;
+          sprite.textHeight = 8;
+          return sprite;
+        });
+    Graph.d3Force('charge').strength(-500);
+</script>
+
+</html>
